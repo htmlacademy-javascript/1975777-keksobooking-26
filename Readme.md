@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Елизавета Яценко](https://up.htmlacademy.ru/javascript/26/user/1975777).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Кислый](https://htmlacademy.ru/profile/smart-grizzly)..
 
 ---
 
