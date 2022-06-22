@@ -44,21 +44,6 @@ lat, число с плавающей точкой — широта, случа�
 lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
 */
 
-const author = {avatar: 'img/avatars/user{{xx}}.png'};
-
-const offer = {
-  title: '',
-  address: '{{coordinates.lat}}, {{coordinates.lng}}',
-  price: 0,
-  type: '',
-  rooms: 0,
-  guests: 0,
-  checkin: '',
-  checkout: '',
-  features: '',
-  description: '',
-  photos: '',
-};
 
 const title = [
   'Апартаменты в стиле LOFT в Санкт-Петербурге',
@@ -108,11 +93,6 @@ const photos = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const coordinates = {
-  lat: 0,
-  lng: 0
-};
-
 const getRandomFloatingNumber = (from, to, digits) => {//число с плавающей точкой
   if (from < 0 || to < 0) {
     return null;
@@ -132,26 +112,27 @@ const getRandomPositiveIntegerByRange = (a, b) => { //функция, возвр
   return Math.floor(result);
 };
 
-const getRandomPositiveInteger = () => { //функция, возвращающая положительное целое число
-  return Math.ceil(Math.random() * 1000);
-};
+const getRandomPositiveInteger = () => Math.ceil(Math.random() * 1000);
 
-const getRandomNewArray = (arr) => {//функция создающая новый массив, случайной длины
-  return arr.filter(() => Math.random()>=0.5);
-};
-
+const getRandomNewArray = (arr) =>  arr.filter(() => Math.random() >= 0.5);
 
 const createPost = () => {
-  let randomAvatarNumber = getRandomPositiveIntegerByRange (1, 10);
-  randomAvatarNumber = randomAvatarNumber.toString().padStart(2,'0');
-  author.avatar= author.avatar.replace('{{xx}}', randomAvatarNumber );
+  let randomAvatarNumber = getRandomPositiveIntegerByRange(1, 10);
+  randomAvatarNumber = randomAvatarNumber.toString().padStart(2, '0');
+  const author = {
+    avatar: `img/avatars/user${  randomAvatarNumber  }.png`
+  };
+  const offer = {};
   offer.title = title[getRandomPositiveIntegerByRange(0, title.length - 1)];
-  coordinates.lat = getRandomFloatingNumber(35.65, 35.7,5 );
-  coordinates.lng = getRandomFloatingNumber(139.7, 139.8, 5);
-  offer.address =  coordinates.lat +', '+ coordinates.lng;
+  const coordinates = {
+    lat: getRandomFloatingNumber(35.65, 35.7, 5),
+    lng: getRandomFloatingNumber(139.7, 139.8, 5)
+  };
+
+  offer.address = `${coordinates.lat  }, ${  coordinates.lng}`;
   offer.type = type[getRandomPositiveIntegerByRange(0, type.length - 1)];
-  offer.guests = getRandomPositiveIntegerByRange(1,10);
-  offer.rooms = getRandomPositiveIntegerByRange(1,10);
+  offer.guests = getRandomPositiveIntegerByRange(1, 10);
+  offer.rooms = getRandomPositiveIntegerByRange(1, 10);
   offer.price = getRandomPositiveInteger() * offer.guests * offer.rooms;
   offer.checkin = checkin[getRandomPositiveIntegerByRange(0, checkin.length - 1)];
   offer.checkout = checkout[getRandomPositiveIntegerByRange(0, checkout.length - 1)];
@@ -165,11 +146,4 @@ const createPost = () => {
     coordinates
   };
 };
-
-console.log(createPost());
-
-
-
-
-
-
+createPost();
