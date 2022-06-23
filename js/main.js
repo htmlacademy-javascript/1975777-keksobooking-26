@@ -45,14 +45,14 @@ lng, число с плавающей точкой — долгота, случ�
 */
 
 
-const title = [
+const TITLES = [
   'Апартаменты в стиле LOFT в Санкт-Петербурге',
   'Квартира в центре Санкт-Петербурга',
   'Великолепное место в самом центре Питера',
   'Жилье для творческих людей',
 ];
 
-const type = [
+const TYPES = [
   'palace',
   'flat',
   'house',
@@ -60,19 +60,13 @@ const type = [
   'hotel',
 ];
 
-const checkin = [
+const TIMES = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const checkout = [
-  '12:00',
-  '13:00',
-  '14:00',
-];
-
-const features = [
+const FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -81,13 +75,13 @@ const features = [
   'conditioner',
 ];
 
-const description = [
+const DESCRIPTIONS = [
   'Дизайнерское пространство с великолепными видами из окна, расположенное в самом сердце города. Просторные комнаты, обилие света и воздуха',
   'Место для свободолюбивых людей,ценящих практичность, креативность и минимализм',
   'Открытое помещение с высокими потолками и необычной мебелью, недалеко от центра города'
 ];
 
-const photos = [
+const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
@@ -123,27 +117,27 @@ const createPost = () => {
     avatar: `img/avatars/user${  randomAvatarNumber  }.png`
   };
   const offer = {};
-  offer.title = title[getRandomPositiveIntegerByRange(0, title.length - 1)];
+  offer.title = TITLES[getRandomPositiveIntegerByRange(0, TITLES.length - 1)];
   const coordinates = {
     lat: getRandomFloatingNumber(35.65, 35.7, 5),
     lng: getRandomFloatingNumber(139.7, 139.8, 5)
   };
 
   offer.address = `${coordinates.lat  }, ${  coordinates.lng}`;
-  offer.type = type[getRandomPositiveIntegerByRange(0, type.length - 1)];
+  offer.type = TYPES[getRandomPositiveIntegerByRange(0, TYPES.length - 1)];
   offer.guests = getRandomPositiveIntegerByRange(1, 10);
   offer.rooms = getRandomPositiveIntegerByRange(1, 10);
   offer.price = getRandomPositiveInteger() * offer.guests * offer.rooms;
-  offer.checkin = checkin[getRandomPositiveIntegerByRange(0, checkin.length - 1)];
-  offer.checkout = checkout[getRandomPositiveIntegerByRange(0, checkout.length - 1)];
-  offer.description = description[getRandomPositiveIntegerByRange(0, description.length - 1)];
-  offer.features = getRandomNewArray(features);
-  offer.photos = getRandomNewArray(photos);
+  offer.checkin = TIMES[getRandomPositiveIntegerByRange(0, TIMES.length - 1)];
+  offer.checkout = TIMES[getRandomPositiveIntegerByRange(0, TIMES.length - 1)];
+  offer.description = DESCRIPTIONS[getRandomPositiveIntegerByRange(0, DESCRIPTIONS.length - 1)];
+  offer.features = getRandomNewArray(FEATURES);
+  offer.photos = getRandomNewArray(PHOTOS);
 
   return {//ФУНКЦИЯ ВОЗРАЩАЮЩАЯ МАССИВ
     author,
     offer,
-    coordinates
+    location:coordinates
   };
 };
-createPost();
+Array.from({length: 10}, createPost());
