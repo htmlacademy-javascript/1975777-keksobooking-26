@@ -140,4 +140,4 @@ const createPost = () => {
     location:coordinates
   };
 };
-Array.from({length: 10}, createPost());
+Array.from({length: 10}, createPost);
