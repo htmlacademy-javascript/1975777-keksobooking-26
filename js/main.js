@@ -1,3 +1,5 @@
-import {createPost, SIMILAR_CREATE_POST} from './data.js';
+import {render} from './render.js';
+render();
 
-Array.from({length: SIMILAR_CREATE_POST}, createPost);
+//import {createPost, SIMILAR_CREATE_POST} from './data.js';
+//Array.from({length: SIMILAR_CREATE_POST}, createPost);

@@ -1,4 +1,4 @@
-import {getRandomFloatingNumber, getRandomPositiveIntegerByRange, getRandomPositiveInteger, getRandomNewArray} from './util';
+import {getRandomFloatingNumber, getRandomPositiveIntegerByRange, getRandomPositiveInteger, getRandomNewArray} from './util.js';
 const TITLES = [
   'Апартаменты в стиле LOFT в Санкт-Петербурге',
   'Квартира в центре Санкт-Петербурга',
@@ -41,8 +41,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const SIMILAR_CREATE_POST = 10;
-
 const createPost = () => {
   let randomAvatarNumber = getRandomPositiveIntegerByRange(1, 10);
   randomAvatarNumber = randomAvatarNumber.toString().padStart(2, '0');
@@ -73,4 +71,5 @@ const createPost = () => {
     location:coordinates
   };
 };
-export {createPost, SIMILAR_CREATE_POST};
+//Array.from({length: SIMILAR_CREATE_POST}, createPost);
+export {createPost, FEATURES};
