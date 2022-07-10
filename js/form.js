@@ -1,30 +1,37 @@
 const adForm = document.querySelector('.ad-form');
-const mapFilters = document.querySelector('.map__filters');
-const adFormInactiveFieldset = document.querySelectorAll('fieldset');
-const mapFiltersInactiveSelect = document.querySelectorAll('select');
+const numberOfRoom = document.querySelector('#room_number');
+const capacityInput = document.querySelector('#capacity');
 
-function setInactivePage () {
-  adForm.classList.add('ad-form--disabled');
-  mapFilters.classList.add('map-filters--disabled');
+const pristine = new Pristine(adForm, {
+  classTo: 'ad-form__element',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error-text',
+});
 
-  for (let i = 0; i < adFormInactiveFieldset.length; i++) {
-    adFormInactiveFieldset[i].disabled = true;
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  console.log('+++++++');
+  const isValid = pristine.validate();
+  if (isValid) {
+    return true;
+  } else {
+    return false;
   }
-  for (let i = 0; i < mapFiltersInactiveSelect.length; i++) {
-    mapFiltersInactiveSelect[i].disabled = true;
-  }
-}
+});
 
-function setActivePage () {
-  adForm.classList.remove('ad-form--disabled');
-  mapFilters.classList.remove('ad-form--disabled');
-
-  for (let i = 0; i < adFormInactiveFieldset.length; i++) {
-    adFormInactiveFieldset[i].disabled = false;
+pristine.addValidator(capacityInput, (capacity) => {
+  if (numberOfRoom.value === 1) {
+    return capacity.value === 1;
   }
-  for (let i = 0; i < mapFiltersInactiveSelect.length; i++) {
-    mapFiltersInactiveSelect[i].disabled = false;
+  if (numberOfRoom === 2 ) {
+    return capacity.value === 1 || capacity.value === 2;
   }
-}
+  if (numberOfRoom.value === 3 ) {
+    return capacity.value === 1 || capacity.value === 2 || capacity.value === 3;
+  }
+  if (numberOfRoom.value === 100) {
+    return capacity.value === 0;
+  }
+  return false;
+}, 'Недопустимое размещение' );
 
-export {setInactivePage, setActivePage};
