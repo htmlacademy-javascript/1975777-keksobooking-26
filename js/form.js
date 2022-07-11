@@ -10,27 +10,27 @@ const pristine = new Pristine(adForm, {
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  console.log('+++++++');
   const isValid = pristine.validate();
-  if (isValid) {
-    return true;
-  } else {
-    return false;
-  }
+  return !!isValid;
 });
 
 pristine.addValidator(capacityInput, (capacity) => {
-  if (numberOfRoom.value === 1) {
-    return capacity.value === 1;
+  const oneRoom = 1;
+  const twoRoom = 2;
+  const threeRoom = 3;
+  const oneHundredRooms = 100;
+  const noGuests = 0;
+  if (numberOfRoom.value === oneRoom) {
+    return capacity.value === oneRoom;
   }
-  if (numberOfRoom === 2 ) {
-    return capacity.value === 1 || capacity.value === 2;
+  if (numberOfRoom.value === twoRoom ) {
+    return capacity.value === oneRoom || capacity.value === twoRoom;
   }
-  if (numberOfRoom.value === 3 ) {
-    return capacity.value === 1 || capacity.value === 2 || capacity.value === 3;
+  if (numberOfRoom.value === threeRoom ) {
+    return capacity.value === oneRoom || capacity.value === twoRoom || capacity.value === threeRoom;
   }
-  if (numberOfRoom.value === 100) {
-    return capacity.value === 0;
+  if (numberOfRoom.value === oneHundredRooms) {
+    return capacity.value === noGuests;
   }
   return false;
 }, 'Недопустимое размещение' );

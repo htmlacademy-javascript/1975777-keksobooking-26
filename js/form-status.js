@@ -3,7 +3,7 @@ const mapFilters = document.querySelector('.map__filters');
 const adFormInactiveFieldset = document.querySelectorAll('fieldset');
 const mapFiltersInactiveSelect = document.querySelectorAll('select');
 
-function setInactivePage () {
+const setInactivePage = () => {
   adForm.classList.add('ad-form--disabled');
   mapFilters.classList.add('map-filters--disabled');
 
@@ -13,9 +13,9 @@ function setInactivePage () {
   for (let i = 0; i < mapFiltersInactiveSelect.length; i++) {
     mapFiltersInactiveSelect[i].disabled = true;
   }
-}
+};
 
-function setActivePage () {
+const setActivePage = () => {
   adForm.classList.remove('ad-form--disabled');
   mapFilters.classList.remove('ad-form--disabled');
 
