@@ -1,6 +1,10 @@
 const adForm = document.querySelector('.ad-form');
 const numberOfRoom = document.querySelector('#room_number');
 const capacityInput = document.querySelector('#capacity');
+const type = document.querySelector('#type');
+const priceNight = document.querySelector('#price');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -33,5 +37,35 @@ pristine.addValidator(capacityInput, (capacity) => {
     return capacity.value === noGuests;
   }
   return false;
-}, 'Недопустимое размещение' );
+} );
 
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
+/**
+ * Обработчик изменения события поля "Тип жилья"
+ */
+
+type.addEventListener('change', (evt) => {
+  priceNight.placeholder = minPrice[type.value];
+  priceNight.min = minPrice[type.value];
+});
+
+/**
+ * Синхронизация полей «Время заезда» и «Время выезда»
+ */
+
+timeIn.addEventListener('change', (evt) => {
+  const timeOne = timeIn.value;
+  timeOut.value = timeOne;
+});
+
+timeOut.addEventListener('change', (evt) => {
+  const timeTwo = timeOut.value;
+  timeIn.value = timeTwo;
+});
