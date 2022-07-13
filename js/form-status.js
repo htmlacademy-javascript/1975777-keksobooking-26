@@ -25,7 +25,7 @@ const setActivePage = () => {
   for (let i = 0; i < mapFiltersInactiveSelect.length; i++) {
     mapFiltersInactiveSelect[i].disabled = false;
   }
-}
+};
 
 export {setInactivePage, setActivePage};
 
