@@ -51,7 +51,7 @@ const minPrice = {
  * Обработчик изменения события поля "Тип жилья"
  */
 
-type.addEventListener('change', (evt) => {
+type.addEventListener('change', () => {
   priceNight.placeholder = minPrice[type.value];
   priceNight.min = minPrice[type.value];
 });
@@ -60,12 +60,12 @@ type.addEventListener('change', (evt) => {
  * Синхронизация полей «Время заезда» и «Время выезда»
  */
 
-timeIn.addEventListener('change', (evt) => {
+timeIn.addEventListener('change', () => {
   const timeOne = timeIn.value;
   timeOut.value = timeOne;
 });
 
-timeOut.addEventListener('change', (evt) => {
+timeOut.addEventListener('change', () => {
   const timeTwo = timeOut.value;
   timeIn.value = timeTwo;
 });
