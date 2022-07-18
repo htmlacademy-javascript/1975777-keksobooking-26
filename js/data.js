@@ -1,8 +1,8 @@
 import {getRandomFloatingNumber, getRandomPositiveIntegerByRange, getRandomPositiveInteger, getRandomNewArray} from './util.js';
 const TITLES = [
-  'Апартаменты в стиле LOFT в Санкт-Петербурге',
-  'Квартира в центре Санкт-Петербурга',
-  'Великолепное место в самом центре Питера',
+  'Апартаменты в стиле LOFT',
+  'Квартира в центре Токио',
+  'Великолепное место в самом центре Токио',
   'Жилье для творческих людей',
 ];
 
@@ -71,5 +71,4 @@ const createPost = () => {
     location:coordinates
   };
 };
-//Array.from({length: SIMILAR_CREATE_POST}, createPost);
 export {createPost, FEATURES};

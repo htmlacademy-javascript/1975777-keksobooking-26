@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
+  <link rel="stylesheet" href="nouislider/nouislider.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
 <body>
-
   <main>
     <div class="promo">
       <h1 class="promo__title visually-hidden">Keksobooking. Кексы по соседству</h1>
@@ -19,8 +20,7 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
-
+      <div class="map__canvas" id="map-canvas"  style="height: 480px; width: 100%"></div>
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
         <form action="" class="map__filters" autocomplete="off">
@@ -112,7 +112,7 @@
                  data-pristine-required-message="Обязательное поле"
                  data-pristine-min-message="Минимальная цена от 0"
                  data-pristine-max-message="Максимальная цена 100000" >
-          <div class="ad-form__slider"></div>
+          <div class="ad-form__slider"> </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -236,6 +236,10 @@
   </template>
 
 </body>
+<script src="leaflet/leaflet.js"></script>
+<script src="nouislider/nouislider.js"></script>
 <script src="pristine/pristine.min.js" ></script>
 <script src="js/main.js" type="module"></script>
+
+
 </html>
