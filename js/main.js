@@ -2,6 +2,7 @@ import './form.js';
 import {initMap, createMarker, addMarkerToMap} from './map.js';
 import {createPost} from './data.js';
 import {convertPostToHtmlElement} from './render.js';
+import './slider.js';
 
 initMap();
 const POST_LIST = Array.from({length: 10}, createPost);
