@@ -1,4 +1,4 @@
-import {createPost, FEATURES} from './data.js';
+import { FEATURES} from './data.js';
 
 const popupType = {
   flat: 'Квартира',
@@ -76,15 +76,4 @@ const convertPostToHtmlElement = (post) => {
   return similarElement;
 };
 
-/**
- * Метод для отрисовки объявление на странице
- */
-const renderPost = () => {
-  const mapCanvas = document.querySelector('.map__canvas');
-  const SIMILAR_POST = createPost();
-  mapCanvas.appendChild(convertPostToHtmlElement(SIMILAR_POST));
-};
-
-
-export {renderPost};
-
+export {convertPostToHtmlElement};
