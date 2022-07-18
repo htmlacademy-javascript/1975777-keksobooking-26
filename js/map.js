@@ -8,7 +8,7 @@ const initMap = () => {
     .setView({ // координаты Токио
       lat: 35.6895,
       lng: 139.69171,
-    }, 10);
+    }, 13);
 
   map.whenReady(setActivePage); // переключение режима страницы в активное состояние
   L.tileLayer(
