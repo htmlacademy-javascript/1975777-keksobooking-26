@@ -1,22 +1,26 @@
 import './form.js';
 import {initMap, createMarker, addMarkerToMap} from './map.js';
-import {createPost} from './data.js';
+//import {createPost} from './data.js';
 import {convertPostToHtmlElement} from './render.js';
 import './slider.js';
+import {getPostsFromServer} from './api/api-post.js';
+
 
 initMap();
-const POST_LIST = Array.from({length: 10}, createPost);
-
-POST_LIST.forEach((post) => {
-  convertPostToHtmlElement(post);
-  const postMarker = createMarker(
-    post.location.lat,
-    post.location.lng,
-    {
-      popup: convertPostToHtmlElement(post)
+//const POST_LIST = Array.from({length: 10}, createPost);
+getPostsFromServer()
+  .then((POST_LIST) => {
+    POST_LIST.forEach((post) => {
+      convertPostToHtmlElement(post);
+      const postMarker = createMarker(
+        post.location.lat,
+        post.location.lng,
+        {
+          popup: convertPostToHtmlElement(post)
+        });
+      addMarkerToMap(postMarker);
     });
-  addMarkerToMap(postMarker);
-});
+  });
 
 const mainMarker = createMarker(35.6895, 139.69171, {style: 'main', draggable: true});
 addMarkerToMap(mainMarker);
