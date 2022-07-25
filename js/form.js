@@ -69,15 +69,15 @@ timeOut.addEventListener('change', () => {
 });
 
 
-const showMessageSuccess = () => {
+function showMessageSuccess ()  {
   if (!document.querySelector('.success')) {
     const successTemplate = successMessageBlock.content.querySelector('.success');
     successTemplate.cloneNode(true);
     document.body.appendChild(successTemplate);
   }
-};
+}
 
-const showMessageError = () => {
+function showMessageError ()  {
   if (!document.querySelector('.error')) {
     const errorTemplate = errorMessageBlock.content.querySelector('.error');
     const errorElement = errorTemplate.cloneNode(true);
@@ -86,9 +86,9 @@ const showMessageError = () => {
     });
     document.body.appendChild(errorElement);
   }
-};
+}
 
-const sendFormCreatePost = () => {
+function sendFormCreatePost  ()  {
   const isValid = pristine.validate();
   if (!isValid) {
     return false;
@@ -100,7 +100,7 @@ const sendFormCreatePost = () => {
     .catch(() => {
       showMessageError();
     });
-};
+}
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

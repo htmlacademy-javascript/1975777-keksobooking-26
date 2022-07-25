@@ -1,4 +1,11 @@
-import { FEATURES} from './data.js';
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
 
 const popupType = {
   flat: 'Квартира',
