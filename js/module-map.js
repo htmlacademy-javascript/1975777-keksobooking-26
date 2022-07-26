@@ -69,6 +69,15 @@ const updateMapFlats = () => {
   });
 };
 
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 setInactivePage();
 // Создание карты
 map = L.map('map-canvas');
@@ -104,6 +113,6 @@ mainMarker.on('moveend', (evt) => { //обработчик события, ср�
 const filters = ['housing-type', 'housing-price', 'housing-rooms', 'housing-guests', 'housing-features'];
 filters.forEach((filter) => {
   document.querySelector(`#${filter}`).addEventListener('change', () => {
-    updateMapFlats();
+    debounce(updateMapFlats);
   });
 });
