@@ -52,7 +52,6 @@ const createMarker = (lat, lng, options) => {
  * Обновление данных на карте
  */
 const updateMapFlats = () => {
-
   const filteredPosts = getFilteredPost(postList);
   markers.forEach((marker) => {
     marker.remove();
@@ -113,6 +112,6 @@ mainMarker.on('moveend', (evt) => { //обработчик события, ср�
 const filters = ['housing-type', 'housing-price', 'housing-rooms', 'housing-guests', 'housing-features'];
 filters.forEach((filter) => {
   document.querySelector(`#${filter}`).addEventListener('change', () => {
-    debounce(updateMapFlats);
+    debounce(updateMapFlats)();
   });
 });
