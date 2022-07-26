@@ -1,4 +1,6 @@
 import {createPost} from './api/api-post.js';
+import './upload-image.js';
+import './slider.js';
 
 const minPrice = {
   bungalow: 0,
