@@ -25,6 +25,6 @@
     "npm": "8.x"
   },
   "dependencies": {
-    "leaflet": "^1.8.0"
+    "leaflet": "1.8.0"
   }
 }
