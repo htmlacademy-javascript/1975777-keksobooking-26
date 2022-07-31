@@ -3,7 +3,16 @@ const housingPrice = document.querySelector('#housing-price');
 const housingRooms = document.querySelector('#housing-rooms');
 const housingGuests = document.querySelector('#housing-guests');
 const housingFeatures = document.querySelector('#housing-features');
+const ACTIVE_POST_SIZE = 10;
+const FILTER_ANY_VALUE = 'any';
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
 
+/**
+ * Фильтрация по удобствам
+ * @param offer
+ * @returns {boolean}
+ */
 const filterByFeatures = ({offer}) => {
   const checkedFilters = housingFeatures.querySelectorAll('input:checked');
 
@@ -18,47 +27,57 @@ const filterByFeatures = ({offer}) => {
   return false;
 };
 
+/**
+ * Фильтрация объявлений
+ * @param postList
+ * @returns {*[]}
+ */
 const getFilteredPost = (postList) => {
-  const newArray = [];
+  const filteredPosts = [];
 
-  postList.forEach((post) => {
-    if (newArray.length === 10) {
-      return;
-    }
-    if (housingType.value !== 'any' && housingType.value !== post.offer.type) {// тип жилья
-      return;
+  for (let i = 0; i < postList.length; i++) {
+    const post = postList[i];
+
+    if (housingType.value !== FILTER_ANY_VALUE && housingType.value !== post.offer.type) {// тип жилья
+      continue;
     }
 
-    if (housingPrice.value !== 'any') {
+    if (housingPrice.value !== FILTER_ANY_VALUE) {
       if (housingPrice.value === 'middle') {// стоимость жилья
-        if (!(post.offer.price >= 10000 && post.offer.price < 50000)) {// стоимость жилья
-          return;
+        if (!(post.offer.price >= MIN_PRICE && post.offer.price < MAX_PRICE)) {// стоимость жилья
+          continue;
         }
       }
       if (housingPrice.value === 'low') {
-        if (!(post.offer.price < 10000)) {
-          return;
+        if (!(post.offer.price < MIN_PRICE)) {
+          continue;
         }
       }
       if (housingPrice.value === 'high') {
-        if (!(post.offer.price >= 50000)) {
-          return;
+        if (!(post.offer.price >= MAX_PRICE)) {
+          continue;
         }
       }
     }
 
-    if (housingRooms.value !== 'any' && parseInt(housingRooms.value, 10) !== post.offer.rooms) { //количество комнат
-      return;
+    if (housingRooms.value !== FILTER_ANY_VALUE && parseInt(housingRooms.value, 10) !== post.offer.rooms) { //количество комнат
+      continue;
     }
-    if (housingGuests.value !== 'any' && parseInt(housingGuests.value, 10) !== post.offer.guests) {//количество гостей
-      return;
+    if (housingGuests.value !== FILTER_ANY_VALUE && parseInt(housingGuests.value, 10) !== post.offer.guests) {//количество гостей
+      continue;
     }
     if (!filterByFeatures(post)) {
-      return;
+      continue;
     }
 
-    newArray.push(post);
-  });
-  return newArray;
+    filteredPosts.push(post);
+
+    if (filteredPosts.length === ACTIVE_POST_SIZE) {
+      break;
+    }
+  }
+
+  return filteredPosts;
 };
+
 export {getFilteredPost};

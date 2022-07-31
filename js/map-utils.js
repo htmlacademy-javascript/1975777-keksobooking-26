@@ -1,3 +1,14 @@
+const mainPin = {
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+};
+const defaultPin = {
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+};
+
 const FEATURES = [
   'wifi',
   'dishwasher',
@@ -63,4 +74,32 @@ const convertPostToHtmlElement = (post) => {
   return similarElement;
 };
 
-export {convertPostToHtmlElement};
+/**
+ * Добавление маркера на карту
+ * @param lat
+ * @param lng
+ * @param options
+ * @returns {*}
+ */
+const createMarker = (lat, lng, options) => {
+  const pinIcon = options && options.style === 'main' ? L.icon(mainPin) : L.icon(defaultPin);
+  const market = L.marker(
+    {
+      lat: lat,
+      lng: lng,
+    },
+    {
+      draggable: options ? options.draggable : false,
+      icon: pinIcon,
+    },
+  );
+
+  if (options && options.popup) {
+    const popup = L.popup().setContent(options.popup);
+    market.bindPopup(popup).openPopup();
+  }
+
+  return market;
+};
+
+export {convertPostToHtmlElement, createMarker};

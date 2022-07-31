@@ -1,62 +1,30 @@
 import {getPostsFromServer} from './api/api-post.js';
-import {setInactivePage, setActivePage} from './form-status.js';
+import {setFormStatus} from './form-utils.js';
 import {getFilteredPost} from './filtering-post.js';
-import {convertPostToHtmlElement} from './render.js';
+import {convertPostToHtmlElement, createMarker} from './map-utils.js';
+import {debounce} from './utils.js';
 
 let map = null;
+let mainMarker = null;
 let postList = [];
 const markers = [];
+const filters = ['housing-type', 'housing-price', 'housing-rooms', 'housing-guests', 'housing-features'];
+const CENTER_TOKYO = {lat: 35.6895, lng: 139.69171,};
+const DEFAULT_ZOOM = 13;
+
+const address = document.querySelector('#address');// поиск поля для ввода адреса
 
 /**
- * Добавление маркера на карту
- * @param lat
- * @param lng
- * @param options
- * @returns {*}
+ * Очистка карты от маркеров
  */
-const createMarker = (lat, lng, options) => {
-  let pinIcon = null;
-  if (options && options.style === 'main') {
-    pinIcon = L.icon({
-      iconUrl: './img/main-pin.svg',
-      iconSize: [52, 52],
-      iconAnchor: [26, 52],
-    });
-  } else {
-    pinIcon = L.icon({
-      iconUrl: './img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
-  }
-  const market = L.marker(
-    {
-      lat: lat,
-      lng: lng,
-    },
-    {
-      draggable: options ? options.draggable : false,
-      icon: pinIcon,
-    },
-  );
-
-  if (options && options.popup) {
-    const popup = L.popup().setContent(options.popup);
-    market.bindPopup(popup).openPopup();
-  }
-
-  return market;
-};
-
-/**
- * Обновление данных на карте
- */
-const updateMapFlats = () => {
-  const filteredPosts = getFilteredPost(postList);
+const clearMarkers = () => {
   markers.forEach((marker) => {
     marker.remove();
   });
-  filteredPosts.forEach((post) => {
+};
+
+const addMarkers = (posts) => {
+  posts.forEach((post) => {
     convertPostToHtmlElement(post);
     const postMarker = createMarker(
       post.location.lat,
@@ -68,28 +36,65 @@ const updateMapFlats = () => {
   });
 };
 
-function debounce (callback, timeoutDelay = 500) {
-  let timeoutId;
+/**
+ * Обновление данных на карте
+ */
+const updateMapFlats = () => {
+  clearMarkers();
+  const filteredPosts = getFilteredPost(postList);
+  addMarkers(filteredPosts);
+};
 
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
-}
+/**
+ * Инициализация карты
+ */
+const initMap = () => {
+  setFormStatus(false);
+  // Создание карты
+  map = L.map('map-canvas');
+  // задаем координаты Токио
+  map.setView({lat: CENTER_TOKYO.lat, lng: CENTER_TOKYO.lng}, DEFAULT_ZOOM);
 
-setInactivePage();
-// Создание карты
-map = L.map('map-canvas');
-// задаем координаты Токио
-map.setView({lat: 35.6895, lng: 139.69171,}, 13);
+  // переключение режима страницы в активное состояние
+  map.whenReady(() => {
+    setFormStatus(true);
+  });
 
-map.whenReady(setActivePage); // переключение режима страницы в активное состояние
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
+
+/**
+ * Инициализация карты
+ */
+const createMainMarker = () => {
+  mainMarker = createMarker(CENTER_TOKYO.lat, CENTER_TOKYO.lng, {style: 'main', draggable: true});
+  address.value = `${CENTER_TOKYO.lat.toFixed(5)} ${CENTER_TOKYO.lng.toFixed(5)}`;
+  mainMarker.addTo(map);
+
+  //обработчик события, срабатывает когда маркер перестает двигаться по карте
+  mainMarker.on('move', (evt) => {
+    debounce(() => {
+      const pinLocation = evt.target.getLatLng();
+      address.value = `${pinLocation.lat.toFixed(5)} ${pinLocation.lng.toFixed(5)}`;
+    })();
+  });
+};
+
+/**
+ * Обновление данных на карте
+ */
+const resetMainMarker = () => {
+  address.value = `${CENTER_TOKYO.lat.toFixed(5)} ${CENTER_TOKYO.lng.toFixed(5)}`;
+  mainMarker.setLatLng(CENTER_TOKYO);
+};
+
+initMap();
+createMainMarker();
 
 // Получаем данные по API
 getPostsFromServer()
@@ -98,20 +103,11 @@ getPostsFromServer()
     updateMapFlats();
   });
 
-
-const mainMarker = createMarker(35.6895, 139.69171, {style: 'main', draggable: true});
-mainMarker.addTo(map);
-const address = document.querySelector('#address');// поиск поля для ввода адреса
-
-mainMarker.on('moveend', (evt) => { //обработчик события, срабатывает когда маркер перестает двигаться по карте
-  const pinLocation = evt.target.getLatLng();
-  address.value = `${pinLocation.lat.toFixed(5)} ${pinLocation.lng.toFixed(5)}`;
-});
-
-
-const filters = ['housing-type', 'housing-price', 'housing-rooms', 'housing-guests', 'housing-features'];
 filters.forEach((filter) => {
   document.querySelector(`#${filter}`).addEventListener('change', () => {
     debounce(updateMapFlats)();
   });
 });
+
+window.map = {};
+window.map.resetMainMarker = resetMainMarker;
