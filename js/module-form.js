@@ -13,7 +13,7 @@ function resetForm() {
   document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
   document.querySelector('.ad-form__photo').style.backgroundImage = '';
   document.querySelector('#price').value = 5000;
-  document.querySelector('.ad-form__slider').noUiSlider.set(5000)
+  document.querySelector('.ad-form__slider').noUiSlider.set(5000);
 }
 
 
