@@ -52,8 +52,6 @@ const initMap = () => {
   setFormStatus(false);
   // Создание карты
   map = L.map('map-canvas');
-  // задаем координаты Токио
-  map.setView({lat: CENTER_TOKYO.lat, lng: CENTER_TOKYO.lng}, DEFAULT_ZOOM);
 
   // переключение режима страницы в активное состояние
   map.whenReady(() => {
@@ -86,14 +84,23 @@ const createMainMarker = () => {
 };
 
 /**
- * Обновление данных на карте
+ * Сброс положения основного маркера
  */
 const resetMainMarker = () => {
   address.value = `${CENTER_TOKYO.lat.toFixed(5)} ${CENTER_TOKYO.lng.toFixed(5)}`;
   mainMarker.setLatLng(CENTER_TOKYO);
 };
 
+/**
+ * Сброс область отображения на карте
+ */
+const resetMapView = () => {
+  // задаем координаты Токио
+  map.setView({lat: CENTER_TOKYO.lat, lng: CENTER_TOKYO.lng}, DEFAULT_ZOOM);
+};
+
 initMap();
+resetMapView();
 createMainMarker();
 
 // Получаем данные по API
@@ -111,3 +118,5 @@ filters.forEach((filter) => {
 
 window.map = {};
 window.map.resetMainMarker = resetMainMarker;
+window.map.resetMapView = resetMapView;
+window.map.updateMapFlats = updateMapFlats;

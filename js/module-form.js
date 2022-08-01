@@ -7,8 +7,11 @@ const resetFormBtn = document.querySelector('.ad-form__reset');
 
 function resetForm() {
   window.map.resetMainMarker();
+  window.map.resetMapView();
   document.querySelector('.ad-form').reset();
+  document.querySelector('.map__filters').reset();
   resetErrors();
+  window.map.updateMapFlats();
 
   document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
   document.querySelector('.ad-form__photo').style.backgroundImage = '';
